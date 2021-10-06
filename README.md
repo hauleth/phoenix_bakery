@@ -124,6 +124,8 @@ compared with Gzip, but slightly worse than Brotli, but with much betted
 decompression speed. It is currently not supported by browsers, but is already
 IANA standard, so the rollout of the support should be pretty fast.
 
+[zstd]: https://datatracker.ietf.org/doc/html/rfc8878
+
 #### Requirements
 
 To use `PhoenixBakery.Zstd` you need at least one of:
