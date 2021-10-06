@@ -142,7 +142,7 @@ If none of the above is true then compressor will raise.
 
 ```elixir
 config :phoenix_bakery,
-  brotli_opts: %{
+  zstd_opts: %{
     level: 10 # defaults to: `22` (ultra-max)
   }
 ```
