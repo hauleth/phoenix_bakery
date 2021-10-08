@@ -6,4 +6,8 @@ config :logger, :console,
 
 config :phoenix,
   json_library: Jason,
-  static_compressors: [PhoenixBakery.Brotli, PhoenixBakery.Zstd]
+  static_compressors: [
+    PhoenixBakery.Gzip,
+    PhoenixBakery.Brotli,
+    PhoenixBakery.Zstd
+  ]
