@@ -17,7 +17,7 @@ defmodule PhoenixBakery.MixProject do
       app: :phoenix_bakery,
       description: @description,
       version: version,
-      elixir: "~> 1.12",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       source_url: @github,
