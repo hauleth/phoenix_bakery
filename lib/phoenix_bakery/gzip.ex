@@ -20,7 +20,7 @@ defmodule PhoenixBakery.Gzip do
   @impl true
   def compress_file(file_path, content) do
     if gzippable?(file_path) do
-      gzip(content)
+      {:ok, gzip(content)}
     else
       :error
     end
