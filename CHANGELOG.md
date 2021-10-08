@@ -2,9 +2,12 @@
 ## [Unreleased]
 
 ### Bug Fixes
+- lower supported Elixir version
+- add tests for GZIP compressor
 - rebuild modules on README change
 
 ### Documentation
+- fix configuration option name for Zstd
 - fix link in README
 
 
