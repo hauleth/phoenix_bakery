@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Documentation
+- fix typo ([#2](https://github.com/hauleth/mix_unused/issues/2))
+
 
 <a name="v0.1.1"></a>
 ## [v0.1.1] - 2021-10-08
