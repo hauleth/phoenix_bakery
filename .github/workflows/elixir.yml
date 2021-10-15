@@ -25,8 +25,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
+        key: ${{ runner.os }}-${{ matrix.otp_version }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.otp_version }}-mix-
     - name: Install compression utilities
       run: sudo apt install brotli zstd
     - name: Install dependencies
