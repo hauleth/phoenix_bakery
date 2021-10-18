@@ -147,3 +147,46 @@ config :phoenix_bakery,
   }
 ```
 <!-- end:PhoenixBakery.Zstd -->
+
+## Compression gains
+
+Test files are composed out of Phoenix JS 1.6.2 library and Phoenix LiveView JS
+0.16.4 bundled with ESBuild 0.12.17 installed from NPM repository using command
+
+```sh
+esbuild ./js/app.js --minify --target=es2020 --bundle --outdir=../priv/static/js --color=true
+```
+
+First we will declare our baseline. These are "regular" bundle and minified
+bundle and the same files compressed with default `Phoenix.Digest.Gzip`
+compressor shipped with Phoenix:
+
+```
+155311	phoenix_app.js
+77351	phoenix_app.min.js
+34341	phoenix_app.js.gz
+24393	phoenix_app.min.js.gz
+```
+
+These are results produced by the compressors available in this package:
+
+```
+34033	phoenix_app.js.gz
+30323	phoenix_app.js.zst
+29017	phoenix_app.js.br
+24339	phoenix_app.min.js.gz
+23202	phoenix_app.min.js.zst
+21843	phoenix_app.min.js.br
+```
+
+This show us that with this input file we gain only a little bit better results
+for GZIP compression (<1% for non-minified and <0.5% for minified), but quite
+substantial for different compression methods, namely:
+
+- ~12% for ZSTD on non-minified file and ~5% on minified JS file
+- ~15.5% for Brotli on non-minified file and ~10.5% on minified JS file
+
+When compared with default compression from Phoenix.
+
+ZSTD while it provides slightly worse compression ratio it provides better
+decompression times, which may be preferred on slower or low powered devices.
