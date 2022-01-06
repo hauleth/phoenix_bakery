@@ -8,7 +8,7 @@ defmodule PhoenixBakery.ZstdTest do
   describe "library" do
     @tag :tmp_dir
     test "encode files", %{tmp_dir: tmp_dir} do
-      run([@assets_dir, "-o", tmp_dir])
+      run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
 
       files = File.ls!(tmp_dir)
 
@@ -17,6 +17,19 @@ defmodule PhoenixBakery.ZstdTest do
       assert_integral([tmp_dir, "test.txt.zst"])
       assert "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst" in files
       assert_integral([tmp_dir, "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst"])
+    end
+
+    @tag :tmp_dir
+    @tag :huge
+    test "encode huge files", %{tmp_dir: tmp_dir} do
+      run([Path.join(@assets_dir, "huge"), "-o", tmp_dir])
+
+      files = File.ls!(tmp_dir)
+
+      assert "roman-roads.svg.zst" in files
+      assert_integral([tmp_dir, "roman-roads.svg.zst"])
+      assert "roman-roads-66f13c2999fe805a32699a53e13e2c05.svg.zst" in files
+      assert_integral([tmp_dir, "roman-roads-66f13c2999fe805a32699a53e13e2c05.svg.zst"])
     end
   end
 
@@ -37,7 +50,7 @@ defmodule PhoenixBakery.ZstdTest do
 
     @tag :tmp_dir
     test "encode files", %{tmp_dir: tmp_dir} do
-      run([@assets_dir, "-o", tmp_dir])
+      run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
 
       files = File.ls!(tmp_dir)
 
@@ -52,7 +65,7 @@ defmodule PhoenixBakery.ZstdTest do
       Application.put_env(:phoenix_bakery, :zstd, nil)
 
       assert_raise RuntimeError, fn ->
-        run([@assets_dir, "-o", tmp_dir])
+        run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
       end
     after
       Application.delete_env(:phoenix_bakery, :zstd)
