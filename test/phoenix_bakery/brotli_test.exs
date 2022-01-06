@@ -1,5 +1,5 @@
 defmodule PhoenixBakery.BrotliTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import ExUnit.CaptureIO
 
@@ -8,7 +8,7 @@ defmodule PhoenixBakery.BrotliTest do
   describe "library" do
     @tag :tmp_dir
     test "encode files", %{tmp_dir: tmp_dir} do
-      run([@assets_dir, "-o", tmp_dir])
+      run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
       files = File.ls!(tmp_dir)
 
       refute "empty.txt.zst" in files
@@ -16,6 +16,19 @@ defmodule PhoenixBakery.BrotliTest do
       assert_integral([tmp_dir, "test.txt.br"])
       assert "test-2482cc4df40800ca35f6b294884c0fe6.txt.br" in files
       assert_integral([tmp_dir, "test-2482cc4df40800ca35f6b294884c0fe6.txt.br"])
+    end
+
+    @tag :tmp_dir
+    @tag :huge
+    test "encode huge files", %{tmp_dir: tmp_dir} do
+      run([Path.join(@assets_dir, "huge"), "-o", tmp_dir])
+
+      files = File.ls!(tmp_dir)
+
+      assert "roman-roads.svg.br" in files
+      assert_integral([tmp_dir, "roman-roads.svg.br"])
+      assert "roman-roads-66f13c2999fe805a32699a53e13e2c05.svg.br" in files
+      assert_integral([tmp_dir, "roman-roads-66f13c2999fe805a32699a53e13e2c05.svg.br"])
     end
   end
 
@@ -36,7 +49,7 @@ defmodule PhoenixBakery.BrotliTest do
 
     @tag :tmp_dir
     test "encode files", %{tmp_dir: tmp_dir} do
-      run([@assets_dir, "-o", tmp_dir])
+      run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
       files = File.ls!(tmp_dir)
 
       assert "test.txt.br" in files
@@ -50,7 +63,7 @@ defmodule PhoenixBakery.BrotliTest do
       Application.put_env(:phoenix_bakery, :brotli, nil)
 
       assert_raise RuntimeError, fn ->
-        run([@assets_dir, "-o", tmp_dir])
+        run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
       end
     after
       Application.delete_env(:phoenix_bakery, :brotli)
