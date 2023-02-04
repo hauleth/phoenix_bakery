@@ -25,9 +25,8 @@ defmodule PhoenixBakery do
   @doc false
   def run(type, content, cmd, opts) do
     dir = Path.join([System.tmp_dir!(), "phoenix_bakery", to_string(type)])
-    hash = Base.url_encode64(:erlang.md5(content), padding: false)
     File.mkdir_p!(dir)
-    file = Path.join(dir, hash)
+    file = Path.join(dir, to_string(System.unique_integer()))
     File.write!(file, content)
 
     try do
