@@ -2,28 +2,33 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ fix-ci2 ]
   pull_request:
-    branches: [ master ]
+    branches: [ fix-ci2 ]
 
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        otp_version: ['24.0', '23.3', '22.3']
-        elixir_version: ['1.11.4', '1.12.1']
+        otp_version: ['24.2', '25.0']
+        elixir_version: ['1.14.3', '1.13.4']
         suite: ['', '--only huge']
+        include:
+        - otp_version: '23.3'
+          elixir_version: '1.11.3'
+        - otp_version: '24.2'
+          elixir_version: '1.12.3'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
         otp-version: ${{ matrix.otp_version }}
         elixir-version: ${{ matrix.elixir_version }}
     - name: Restore dependencies cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: deps
         key: ${{ runner.os }}-${{ matrix.otp_version }}-mix-${{ hashFiles('**/mix.lock') }}
