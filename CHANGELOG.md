@@ -6,6 +6,7 @@
 - update Phoenix dependency
 
 ### Documentation
+- use warning admonition in README
 - fix typo ([#2](https://github.com/hauleth/phoenix_bakery/issues/2))
 
 
