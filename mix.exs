@@ -47,7 +47,7 @@ defmodule PhoenixBakery.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.6.0"},
+      {:phoenix, "~> 1.6"},
       {:brotli, "~> 0.3.0", optional: true},
       {:ezstd, "~> 1.0", optional: true},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
