@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Bug Fixes
+- update Phoenix dependency
+
 ### Documentation
 - fix typo ([#2](https://github.com/hauleth/phoenix_bakery/issues/2))
 
