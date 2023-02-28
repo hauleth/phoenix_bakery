@@ -2,6 +2,7 @@
 ## [Unreleased]
 
 ### Bug Fixes
+- race condition with external binaries and files with the same content
 - update Phoenix dependency
 
 ### Documentation
