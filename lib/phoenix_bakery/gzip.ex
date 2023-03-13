@@ -18,15 +18,15 @@ defmodule PhoenixBakery.Gzip do
   def file_extensions, do: ~w[.gz]
 
   @impl true
-  def compress_file(file_path, content) do
+  def compress_file(file_path, content, opts \\ []) do
     if gzippable?(file_path) do
-      {:ok, gzip(content)}
+      {:ok, gzip(content, opts)}
     else
       :error
     end
   end
 
-  defp gzip(content) do
+  defp gzip(content, opts) do
     zstream = :zlib.open()
     options = options(:gzip, @default_opts)
 
@@ -34,10 +34,10 @@ defmodule PhoenixBakery.Gzip do
       try do
         :zlib.deflateInit(
           zstream,
-          options.level,
+          Keyword.get(opts, :level, options.level),
           :deflated,
           16 + options.window_bits,
-          options.mem_level,
+          Keyword.get(opts, :mem_level, options.mem_level),
           :default
         )
 

@@ -52,7 +52,9 @@ defmodule PhoenixBakery.MixProject do
       {:ezstd, "~> 1.0", optional: true},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: [:dev]},
-      {:credo, "~> 1.5", only: [:dev]}
+      {:credo, "~> 1.5", only: [:dev]},
+      {:benchee, "~> 1.1"},
+      {:benchee_csv, "~> 1.0"}
     ]
   end
 

@@ -6,10 +6,6 @@ defmodule PhoenixBakery.Brotli do
 
   @behaviour Phoenix.Digester.Compressor
 
-  @default_opts %{
-    quality: 11
-  }
-
   import PhoenixBakery
 
   require Logger
@@ -18,16 +14,17 @@ defmodule PhoenixBakery.Brotli do
   def file_extensions, do: ~w[.br]
 
   @impl true
-  def compress_file(file_path, content) do
+  def compress_file(file_path, content, opts \\ []) do
     if gzippable?(file_path) do
-      compress(content)
+      compress(content, opts)
     else
       :error
     end
   end
 
-  defp compress(content) do
-    options = options(:brotli, @default_opts)
+  defp compress(content, opts) do
+    quality = Keyword.get(opts, :quality, 11)
+    options = options(:brotli, %{quality: quality})
 
     case encode(content, options) do
       {:ok, compressed} when byte_size(compressed) < byte_size(content) ->

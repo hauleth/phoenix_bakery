@@ -6,10 +6,6 @@ defmodule PhoenixBakery.Zstd do
 
   @behaviour Phoenix.Digester.Compressor
 
-  @default_opts %{
-    level: 22
-  }
-
   import PhoenixBakery
 
   require Logger
@@ -18,16 +14,16 @@ defmodule PhoenixBakery.Zstd do
   def file_extensions, do: ~w[.zst]
 
   @impl true
-  def compress_file(file_path, content) do
+  def compress_file(file_path, content, opts \\ []) do
     if gzippable?(file_path) do
-      compress(content)
+      compress(content, opts)
     else
       :error
     end
   end
 
-  defp compress(content) do
-    case encode(content) do
+  defp compress(content, opts) do
+    case encode(content, opts) do
       {:ok, compressed} when byte_size(compressed) < byte_size(content) ->
         {:ok, compressed}
 
@@ -36,8 +32,9 @@ defmodule PhoenixBakery.Zstd do
     end
   end
 
-  defp encode(content) do
-    options = options(:zstd, @default_opts)
+  defp encode(content, opts) do
+    compress_level = Keyword.get(opts, :level, 22)
+    options = options(:ztsd, %{level: compress_level})
 
     cond do
       Code.ensure_loaded?(:ezstd) and function_exported?(:ezstd, :compress, 1) ->
