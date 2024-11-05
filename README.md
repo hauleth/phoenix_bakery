@@ -25,7 +25,7 @@ And configure your `Plug.Static`:
 
 ```elixir
 plug Plug.Static,
-  encodings: [{"zstd", ".zstd"}],
+  encodings: [{"zstd", ".zst"}],
   gzip: true,
   brotli: true,
   # Rest of the options…
