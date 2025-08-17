@@ -2,9 +2,6 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ fix-ci2 ]
-  pull_request:
-    branches: [ fix-ci2 ]
 
 jobs:
   build:
@@ -20,6 +17,8 @@ jobs:
           elixir_version: '1.11.3'
         - otp_version: '24.2'
           elixir_version: '1.12.3'
+        - otp_version: '28.0.1'
+          elixir_version: '1.18.4'
     steps:
     - uses: actions/checkout@v3
     - name: Set up Elixir
