@@ -130,6 +130,7 @@ IANA standard, so the rollout of the support should be pretty fast.
 
 To use `PhoenixBakery.Zstd` you need at least one of:
 
+- Erlang 28 or above to use the built in `zstd` lib
 - Add `{:ezstd, "~> 1.0", runtime: false}` to use NIF version of Zstd
   compressor. It requires C code compilation and `git` tool to be available to
   fetch the code of `zstandard` code.

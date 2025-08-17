@@ -33,42 +33,45 @@ defmodule PhoenixBakery.ZstdTest do
     end
   end
 
-  describe "executable" do
-    setup do
-      :code.purge(:ezstd)
-      :code.delete(:ezstd)
-      ebin_path = Mix.Project.compile_path(app: :ezstd, build_per_environment: true)
+  # Erlang's Zstd will always be used when it is defined
+  if not Code.ensure_loaded?(:zstd) do
+    describe "executable" do
+      setup do
+        :code.purge(:ezstd)
+        :code.delete(:ezstd)
+        ebin_path = Mix.Project.compile_path(app: :ezstd, build_per_environment: true)
 
-      assert Code.delete_path(ebin_path)
+        assert Code.delete_path(ebin_path)
 
-      on_exit(fn ->
-        Code.prepend_path(ebin_path)
-      end)
+        on_exit(fn ->
+          Code.prepend_path(ebin_path)
+        end)
 
-      :ok
-    end
-
-    @tag :tmp_dir
-    test "encode files", %{tmp_dir: tmp_dir} do
-      run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
-
-      files = File.ls!(tmp_dir)
-
-      assert "test.txt.zst" in files
-      assert_integral([tmp_dir, "test.txt.zst"])
-      assert "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst" in files
-      assert_integral([tmp_dir, "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst"])
-    end
-
-    @tag :tmp_dir
-    test "throws error when utility not available", %{tmp_dir: tmp_dir} do
-      Application.put_env(:phoenix_bakery, :zstd, nil)
-
-      assert_raise RuntimeError, fn ->
-        run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
+        :ok
       end
-    after
-      Application.delete_env(:phoenix_bakery, :zstd)
+
+      @tag :tmp_dir
+      test "encode files", %{tmp_dir: tmp_dir} do
+        run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
+
+        files = File.ls!(tmp_dir)
+
+        assert "test.txt.zst" in files
+        assert_integral([tmp_dir, "test.txt.zst"])
+        assert "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst" in files
+        assert_integral([tmp_dir, "test-2482cc4df40800ca35f6b294884c0fe6.txt.zst"])
+      end
+
+      @tag :tmp_dir
+      test "throws error when utility not available", %{tmp_dir: tmp_dir} do
+        Application.put_env(:phoenix_bakery, :zstd, nil)
+
+        assert_raise RuntimeError, fn ->
+          run([Path.join(@assets_dir, "regular"), "-o", tmp_dir])
+        end
+      after
+        Application.delete_env(:phoenix_bakery, :zstd)
+      end
     end
   end
 
