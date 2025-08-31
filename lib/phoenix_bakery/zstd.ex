@@ -4,6 +4,7 @@ defmodule PhoenixBakery.Zstd do
              |> String.split(~r/<!--\s*(start|end):#{inspect(__MODULE__)}\s*-->/, parts: 3)
              |> Enum.at(1)
 
+  @compile {:no_warn_undefined, :zstd}
   @behaviour Phoenix.Digester.Compressor
 
   @default_opts %{
@@ -40,13 +41,13 @@ defmodule PhoenixBakery.Zstd do
     options = options(:zstd, @default_opts)
 
     cond do
-      Code.ensure_loaded?(:zstd) and function_exported?(:zstd, :compress, 1) ->
+      Code.ensure_loaded?(:zstd) and function_exported?(:zstd, :compress, 2) ->
         {:ok,
          content
          |> :zstd.compress(%{compressionLevel: options.level})
          |> :erlang.iolist_to_binary()}
 
-      Code.ensure_loaded?(:ezstd) and function_exported?(:ezstd, :compress, 1) ->
+      Code.ensure_loaded?(:ezstd) and function_exported?(:ezstd, :compress, 2) ->
         {:ok, :ezstd.compress(content, options.level)}
 
       path = find_executable(:zstd) ->
