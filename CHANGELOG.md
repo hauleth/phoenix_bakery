@@ -4,6 +4,9 @@
 ### Bug Fixes
 - ignore compilation warnings about missing ZSTD module
 
+### Documentation
+- correct ZSTD extension
+
 ### Features
 - warn about missing functionality instead of raising error
 - use Erlang's zstd when it exists ([#8](https://github.com/hauleth/phoenix_bakery/issues/8))
