@@ -5,6 +5,7 @@ defmodule PhoenixBakery.Zstd do
              |> Enum.at(1)
 
   @compile {:no_warn_undefined, :zstd}
+
   @behaviour Phoenix.Digester.Compressor
 
   @default_opts %{
@@ -54,7 +55,8 @@ defmodule PhoenixBakery.Zstd do
         run(:zstd, content, path, ~w[-c --ultra -#{options.level}])
 
       true ->
-        raise "No `zstd` utility"
+        Logger.warning("No `zstd` utility")
+        :error
     end
   end
 end
