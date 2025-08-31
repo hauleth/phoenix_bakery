@@ -20,7 +20,7 @@ jobs:
         filter_pull_request: '.pull_request._links.issue.href'
     - name: Check
       env:
-        TYPES: ft|fix|docs|chore|test
+        TYPES: ft|feat|fix|docs|chore|test
       run: |
         ! git log --no-merges --oneline -E --invert-grep --grep="^($TYPES):" --pretty=format:"::error title=Invalid commit message::%h %s" origin/$GITHUB_BASE_REF... | grep "."
     - name: Unlabel correct PR
