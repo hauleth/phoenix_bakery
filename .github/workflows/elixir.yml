@@ -6,18 +6,14 @@ on:
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp_version: ['24.2', '25.0']
-        elixir_version: ['1.14.3', '1.13.4']
+        otp_version: ['26', '27']
+        elixir_version: ['1.15', '1.16', '1.17', '1.18']
         suite: ['', '--only huge']
         include:
-        - otp_version: '23.3'
-          elixir_version: '1.11.3'
-        - otp_version: '24.2'
-          elixir_version: '1.12.3'
-        - otp_version: '28.0.1'
+        - otp_version: '28'
           elixir_version: '1.18.4'
     steps:
     - uses: actions/checkout@v3

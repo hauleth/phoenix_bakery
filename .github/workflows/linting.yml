@@ -5,19 +5,6 @@ on:
     branches: [ master ]
 
 jobs:
-  store-pr:
-    name: Store PR number
-    runs-on: ubuntu-latest
-    steps:
-    - name: Save PR number
-      run: |
-        mkdir -p ./pr
-        echo ${{ github.event.number }} > ./pr/NR
-    - uses: actions/upload-artifact@v3
-      with:
-        name: pr
-        path: pr/
-
   formatting:
     name: Check formatting (invalid/format)
     runs-on: ubuntu-latest
@@ -26,9 +13,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        otp-version: '24.0'
-        elixir-version: '1.12.1'
-        rebar3-version: '3.15.2'
+        otp-version: '28.0.1'
+        elixir-version: '1.18.4'
     - name: Restore dependencies cache
       uses: actions/cache@v3
       with:
@@ -46,9 +32,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        otp-version: '24.0'
-        elixir-version: '1.12.1'
-        rebar3-version: '3.15.2'
+        otp-version: '28.0.1'
+        elixir-version: '1.18.4'
     - name: Restore dependencies cache
       uses: actions/cache@v3
       with:
