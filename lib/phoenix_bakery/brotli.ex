@@ -47,7 +47,8 @@ defmodule PhoenixBakery.Brotli do
         run(:brotli, content, path, ~w[-c -q #{options.quality}])
 
       true ->
-        raise "No `brotli` utility"
+        Logger.warning("No `brotli` utility")
+        :error
     end
   end
 end
