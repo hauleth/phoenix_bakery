@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Features
+- use Erlang's zstd when it exists ([#8](https://github.com/hauleth/phoenix_bakery/issues/8))
+
 
 <a name="v0.1.2"></a>
 ## [v0.1.2] - 2023-02-28
