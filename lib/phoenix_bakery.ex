@@ -1,8 +1,6 @@
 defmodule PhoenixBakery do
   @external_resource "README.md"
   @moduledoc File.read!("README.md")
-             |> String.split(~r/<!--\s*(start|end):#{inspect(__MODULE__)}\s*-->/, parts: 3)
-             |> Enum.at(1)
 
   @otp_app :phoenix_bakery
 
